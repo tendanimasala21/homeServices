@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "@/components/landing/Navbar";
 import ServiceCard from "@/components/landing/ServiceCard";
 import {Package, Sprout, Truck, Wrench, Shirt, Sparkles } from "lucide-react";
 // import ServiceCard from "@/components/ServiceCard";
@@ -17,6 +18,7 @@ const services = [
 export default function ServicesPage() {
   return (
     <main>
+      <Navbar />
       {/* Hero Section */}
       <section className="px-8 py-20 bg-gradient-to-r from-green-50 to-white text-center">
         <h1 className="text-4xl md:text-5xl font-bold">Our Services</h1>
