@@ -24,7 +24,7 @@ export async function GET() {
       customersCount: usersData.length,
       recentOrders
     })
-  } catch (_error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch dashboard data' },
       { status: 500 }
