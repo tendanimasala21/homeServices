@@ -33,7 +33,7 @@ interface Props {
 }
 
 export function OrderTable({ orders, onStatusChange }: Props) {
-    // const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+    const [_selectedOrder, _setSelectedOrder] = useState<Order | null>(null)
 
     return (
         <>
