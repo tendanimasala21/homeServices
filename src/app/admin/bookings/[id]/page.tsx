@@ -33,13 +33,14 @@ const mockBookings = [
 ]
 
 interface BookingPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function BookingDetailsPage({ params }: BookingPageProps) {
-  const booking = mockBookings.find((b) => b.id === params.id)
+export default async function BookingDetailsPage({ params }: BookingPageProps) {
+  const { id } = await params
+  const booking = mockBookings.find((b) => b.id === id)
 
   if (!booking) return notFound()
 
