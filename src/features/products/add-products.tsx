@@ -24,7 +24,7 @@ export function AddProducts({ onAdd }: AddProductsProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
     const [previewImages, setPreviewImages] = useState<string[]>([])
-    const [uploadedImages, setUploadedImages] = useState<string[]>([])
+    const [_uploadedImages, setUploadedImages] = useState<string[]>([])
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -188,6 +188,8 @@ export function AddProducts({ onAdd }: AddProductsProps) {
                                                     src={preview}
                                                     alt={`Preview ${index}`}
                                                     className="h-24 w-full object-cover rounded-md"
+                                                    width={500}
+                                                    height={500}
                                                 />
                                                 <button
                                                     type="button"
