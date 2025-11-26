@@ -1,11 +1,15 @@
 import { NavLink } from "@/components/nav-link"
-import { BookAIcon, BrushCleaningIcon, LayoutDashboardIcon, ListOrderedIcon, LogOutIcon, PlusIcon, ScanLineIcon, ShoppingBasketIcon, SquarePlusIcon } from "lucide-react"
-import { unauthorized } from "next/navigation"
+import { 
+    BookAIcon,
+    BrushCleaningIcon,
+    LayoutDashboardIcon,
+    ListOrderedIcon,
+    LogOutIcon,
+    ScanLineIcon
+} from "lucide-react"
 import { PropsWithChildren } from "react"
 
 export default async function AdminLayout(props: PropsWithChildren) {
-
-    // if (session.role != 'admin') unauthorized()
 
     return (
         <div className="flex w-screen h-screen overflow-hidden divide-x">
@@ -42,7 +46,6 @@ export default async function AdminLayout(props: PropsWithChildren) {
             </div>
             <div className="flex flex-col flex-auto h-full overflow-hidden divide-y">
                 <div className="flex items-center justify-end flex-none w-full h-12 px-3">
-
                 </div>
                 <main className="flex-auto w-full overflow-hidden">
 					{props.children}

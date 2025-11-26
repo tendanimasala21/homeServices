@@ -5,11 +5,20 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { PenIcon, TrashIcon } from "lucide-react"
 import Loading from './loading'
+import Image from "next/image"
 
 interface Product {
     id: number
     name: string
     price: number
+    category: string
+    imageUrl: string
+}
+
+type ProductResponse = {
+    id: number
+    name: string
+    price: string | number
     category: string
     imageUrl: string
 }
@@ -25,12 +34,16 @@ export default function Products() {
             if (!response.ok) {
                 throw new Error('Failed to fetch products')
             }
-            const data = await response.json()
-            // Convert price to number for each product
-            setProducts(data.map((product: any) => ({
+
+            const data: ProductResponse[] = await response.json()
+
+            // Convert API response to Product[]
+            const formatted = data.map((product) => ({
                 ...product,
                 price: Number(product.price)
-            })))
+            }))
+
+            setProducts(formatted)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error occurred')
         } finally {
@@ -47,7 +60,12 @@ export default function Products() {
     }
 
     if (loading) return <Loading />
-    if (error) return <div className="flex items-center justify-center h-full text-red-500">Error: {error}</div>
+    if (error)
+        return (
+            <div className="flex items-center justify-center h-full text-red-500">
+                Error: {error}
+            </div>
+        )
 
     return (
         <div className="flex flex-col w-full h-full p-5 space-y-5">
@@ -60,11 +78,10 @@ export default function Products() {
                 </div>
                 <AddProducts onAdd={handleAddProduct} />
             </header>
+
             <main className="flex-auto w-full border rounded bg-card text-card-foreground p-4 overflow-x-auto">
                 {products.length === 0 ? (
-                    <p className="text-center text-gray-500">
-                        No products available.
-                    </p>
+                    <p className="text-center text-gray-500">No products available.</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                         {products.map((product) => (
@@ -72,23 +89,21 @@ export default function Products() {
                                 key={product.id}
                                 className="border rounded-lg bg-white shadow hover:shadow-lg transition"
                             >
-                                <img
+                                <Image
                                     src={product.imageUrl}
                                     alt={product.name}
+                                    width={500}
+                                    height={300}
                                     className="w-full h-40 object-cover rounded-t-lg"
                                 />
+
                                 <div className="p-4 space-y-2">
                                     <div className="flex items-center justify-between">
-                                        <h2 className="font-semibold text-sm">
-                                            {product.name}
-                                        </h2>
-                                        <Badge variant="outline">
-                                            {product.category}
-                                        </Badge>
+                                        <h2 className="font-semibold text-sm">{product.name}</h2>
+                                        <Badge variant="outline">{product.category}</Badge>
                                     </div>
-                                    <p className="font-small">
-                                        R {product.price.toFixed(2)}
-                                    </p>
+
+                                    <p className="font-small">R {product.price.toFixed(2)}</p>
 
                                     <div className="flex space-x-2 pt-2">
                                         <Button
@@ -99,6 +114,7 @@ export default function Products() {
                                         >
                                             <PenIcon />
                                         </Button>
+
                                         <Button
                                             size="sm"
                                             variant="destructive"

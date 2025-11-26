@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Eye, MoreHorizontal } from 'lucide-react'
-import { useState } from 'react'
 import { format } from 'date-fns'
 import { ViewOrderDialog } from './view-order'
 
@@ -33,8 +32,6 @@ interface Props {
 }
 
 export function OrderTable({ orders, onStatusChange }: Props) {
-    const [_selectedOrder, _setSelectedOrder] = useState<Order | null>(null)
-
     return (
         <>
             <table className="min-w-full text-sm text-left">

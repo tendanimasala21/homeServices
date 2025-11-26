@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { getServices } from '@/features/services/actions'
 import { CreateServices } from '@/features/services/create-services'
+import Image from "next/image"
 
 export default async function Services() {
 	const services = await getServices()
@@ -20,13 +21,17 @@ export default async function Services() {
 				{services.map((service) => (
 					<Link key={service.id} href={`/admin/services/${service.id}`}>
 						<div className="flex flex-col h-full col-span-1 duration-500 border divide-y bg-card text-card-foreground hover:bg-primary/5 rounded">
+							
 							{/* Image */}
 							{service.image ? (
-								<img
-									src={service.image}
-									alt={service.name}
-									className="w-full aspect-video object-cover rounded-t"
-								/>
+								<div className="relative w-full aspect-video rounded-t overflow-hidden">
+									<Image
+										src={service.image}
+										alt={service.name}
+										fill            // allows responsive image inside aspect-video
+										className="object-cover"
+									/>
+								</div>
 							) : (
 								<div className="w-full aspect-video bg-muted flex items-center justify-center text-xs text-muted-foreground rounded-t">
 									No image

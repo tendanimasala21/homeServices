@@ -1,7 +1,7 @@
 // app/api/dashboard/route.ts
 import { db } from '@/db/client'
 import { orders, users } from '@/db/schema'
-import { eq, desc } from 'drizzle-orm'
+import { desc } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -24,7 +24,7 @@ export async function GET() {
       customersCount: usersData.length,
       recentOrders
     })
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json(
       { error: 'Failed to fetch dashboard data' },
       { status: 500 }

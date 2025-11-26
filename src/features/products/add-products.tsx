@@ -14,9 +14,21 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PlusIcon, UploadIcon, XIcon } from 'lucide-react'
 import { useState, useRef, ChangeEvent } from 'react'
+import Image from 'next/image'
+
+// Define proper TypeScript interfaces
+interface Product {
+    id: string
+    name: string
+    price: number
+    description: string
+    category: string
+    imageUrl: string
+    additionalImages: string[]
+}
 
 interface AddProductsProps {
-    onAdd: (product: any) => void
+    onAdd: (product: Product) => void
 }
 
 export function AddProducts({ onAdd }: AddProductsProps) {
@@ -24,7 +36,6 @@ export function AddProducts({ onAdd }: AddProductsProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
     const [previewImages, setPreviewImages] = useState<string[]>([])
-    const [_uploadedImages, setUploadedImages] = useState<string[]>([])
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,11 +60,9 @@ export function AddProducts({ onAdd }: AddProductsProps) {
 
     const handleRemoveImage = (index: number) => {
         setPreviewImages(prev => prev.filter((_, i) => i !== index))
-        // Also remove from uploaded images if already uploaded
-        setUploadedImages(prev => prev.filter((_, i) => i !== index))
     }
 
-    const uploadImages = async () => {
+    const uploadImages = async (): Promise<string[]> => {
         if (previewImages.length === 0) return []
 
         try {
@@ -83,8 +92,7 @@ export function AddProducts({ onAdd }: AddProductsProps) {
             }
 
             const data = await response.json()
-            setUploadedImages(data.urls)
-            return data.urls
+            return data.urls || []
         } catch (error) {
             console.error('Upload error:', error)
             throw error
@@ -127,7 +135,6 @@ export function AddProducts({ onAdd }: AddProductsProps) {
             
             // Reset form
             setPreviewImages([])
-            setUploadedImages([])
             setIsOpen(false)
             e.currentTarget.reset()
         } catch (error) {
@@ -184,12 +191,12 @@ export function AddProducts({ onAdd }: AddProductsProps) {
                                     <div className="grid grid-cols-3 gap-2">
                                         {previewImages.map((preview, index) => (
                                             <div key={index} className="relative group">
-                                                <img
+                                                <Image
                                                     src={preview}
-                                                    alt={`Preview ${index}`}
+                                                    alt={`Preview ${index + 1}`}
                                                     className="h-24 w-full object-cover rounded-md"
-                                                    width={500}
-                                                    height={500}
+                                                    width={96}
+                                                    height={96}
                                                 />
                                                 <button
                                                     type="button"

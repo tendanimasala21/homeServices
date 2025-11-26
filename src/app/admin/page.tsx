@@ -75,7 +75,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">R{data.revenue.toLocaleString()}</p>
-            <p className="text-sm text-white/70">This month's revenue</p>
+            <p className="text-sm text-white/70">This month&apos;s revenue</p>
           </CardContent>
         </Card>
       </motion.div>
