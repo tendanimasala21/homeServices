@@ -8,7 +8,19 @@ import { PenIcon, TrashIcon } from 'lucide-react'
 import Loading from './loading'
 import Image from 'next/image'
 import { Product } from '@/types/product'
-import { add } from 'date-fns'
+
+/**
+ * Shape of data returned by the API
+ * (used only for normalization, not state)
+ */
+type ApiProduct = {
+  id: number | string
+  name: string
+  price: number | string
+  category: string
+  imageUrl: string
+  additionalImages?: string[]
+}
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
@@ -22,15 +34,15 @@ export default function Products() {
         throw new Error('Failed to fetch products')
       }
 
-      const data = await response.json()
+      const data: ApiProduct[] = await response.json()
 
-      const formatted: Product[] = data.map((product: any) => ({
+      const formatted: Product[] = data.map((product) => ({
         id: Number(product.id),
         name: product.name,
         price: Number(product.price),
         category: product.category,
         imageUrl: product.imageUrl,
-        additionalImages: product.additionalImages || [],
+        additionalImages: product.additionalImages ?? [],
       }))
 
       setProducts(formatted)
